@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { MessageCircle, Settings, Download, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RestaurantCard from '@/components/RestaurantCard';
-import NewsBar from '@/components/NewsBar';
+import MovingAds from '@/components/MovingAds';
 import { restaurants } from '@/data/restaurants';
 import SupportButton from '@/components/SupportButton';
 import DownloadAppButton from '@/components/DownloadAppButton';
@@ -26,7 +26,7 @@ const Index = () => {
         </nav>
       </header>
 
-      <NewsBar />
+      <MovingAds />
 
       <main className="container mx-auto mt-10 p-4">
         <section className="text-center mb-10">

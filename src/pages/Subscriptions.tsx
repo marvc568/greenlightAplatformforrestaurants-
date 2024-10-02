@@ -46,7 +46,7 @@ const Subscriptions = () => {
                 <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-3xl font-bold mb-4">{plan.price} ريال/شهريًا</p>
+                <p className="text-3xl font-bold mb-4">{plan.price} جنيه مصري/شهريًا</p>
                 <ul className="list-disc list-inside mb-4">
                   {plan.features.map((feature, index) => (
                     <li key={index}>{feature}</li>
@@ -101,7 +101,7 @@ const Subscriptions = () => {
                 )}
 
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white">
-                  ادفع {selectedPlan.price} ريال
+                  ادفع {selectedPlan.price} جنيه مصري
                 </Button>
               </form>
               <p className="mt-4 text-center text-sm">

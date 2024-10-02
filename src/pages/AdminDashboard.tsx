@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart, Users, ShoppingBag, DollarSign, Mail, PlusCircle, Edit, Trash } from 'lucide-react';
+import { BarChart, Users, ShoppingBag, DollarSign, Mail, PlusCircle, Edit, Trash, FileText } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { Input } from "@/components/ui/input"
 import { restaurants } from '@/data/restaurants';
 import AddRestaurantForm from '@/components/AddRestaurantForm';
 import EditAdForm from '@/components/EditAdForm';
 import EditSubscriptionForm from '@/components/EditSubscriptionForm';
+import ContentManagementForm from '@/components/ContentManagementForm';
+import PopupAdForm from '@/components/PopupAdForm';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -19,28 +21,26 @@ const AdminDashboard = () => {
   const [showAddRestaurantForm, setShowAddRestaurantForm] = useState(false);
   const [showEditAdForm, setShowEditAdForm] = useState(false);
   const [showEditSubscriptionForm, setShowEditSubscriptionForm] = useState(false);
+  const [showContentManagementForm, setShowContentManagementForm] = useState(false);
+  const [showPopupAdForm, setShowPopupAdForm] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   const handleAddRestaurant = (restaurantData) => {
-    // Logic to add new restaurant
     console.log('Adding new restaurant:', restaurantData);
     setShowAddRestaurantForm(false);
   };
 
   const handleEditAd = (adData) => {
-    // Logic to edit ad
     console.log('Editing ad:', adData);
     setShowEditAdForm(false);
   };
 
   const handleEditSubscription = (subscriptionData) => {
-    // Logic to edit subscription
     console.log('Editing subscription:', subscriptionData);
     setShowEditSubscriptionForm(false);
   };
 
   const handleDeleteAd = (adId) => {
-    // Logic to delete ad
     console.log('Deleting ad:', adId);
   };
 
@@ -49,9 +49,26 @@ const AdminDashboard = () => {
   };
 
   const handleReplyMessage = (messageId, reply) => {
-    // Logic to reply to message
     console.log('Replying to message:', messageId, reply);
     setSelectedMessage(null);
+  };
+
+  const handleEditRestaurant = (restaurantId) => {
+    console.log('Editing restaurant:', restaurantId);
+  };
+
+  const handleDeleteRestaurant = (restaurantId) => {
+    console.log('Deleting restaurant:', restaurantId);
+  };
+
+  const handleContentManagement = (contentData) => {
+    console.log('Updating content:', contentData);
+    setShowContentManagementForm(false);
+  };
+
+  const handlePopupAd = (adData) => {
+    console.log('Creating popup ad:', adData);
+    setShowPopupAdForm(false);
   };
 
   return (
@@ -68,6 +85,7 @@ const AdminDashboard = () => {
             <Button onClick={() => setActiveTab('users')} variant={activeTab === 'users' ? 'default' : 'outline'}>إدارة المستخدمين</Button>
             <Button onClick={() => setActiveTab('ads')} variant={activeTab === 'ads' ? 'default' : 'outline'}>إدارة الإعلانات</Button>
             <Button onClick={() => setActiveTab('subscriptions')} variant={activeTab === 'subscriptions' ? 'default' : 'outline'}>إدارة الاشتراكات</Button>
+            <Button onClick={() => setActiveTab('content')} variant={activeTab === 'content' ? 'default' : 'outline'}>إدارة المحتوى</Button>
           </div>
 
           {activeTab === 'overview' && (
@@ -104,7 +122,7 @@ const AdminDashboard = () => {
                   <CardContent className="flex items-center p-4">
                     <DollarSign className="w-8 h-8 mr-4 text-red-500" />
                     <div>
-                      <p className="text-lg font-bold">12,345 ريال</p>
+                      <p className="text-lg font-bold">12,345 جنيه مصري</p>
                       <p className="text-gray-600">الإيرادات</p>
                     </div>
                   </CardContent>
@@ -189,10 +207,10 @@ const AdminDashboard = () => {
                         <td>{restaurant.cuisine}</td>
                         <td>{restaurant.rating}</td>
                         <td>
-                          <Button className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
+                          <Button onClick={() => handleEditRestaurant(restaurant.id)} className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button className="bg-red-500 hover:bg-red-600 text-white">
+                          <Button onClick={() => handleDeleteRestaurant(restaurant.id)} className="bg-red-500 hover:bg-red-600 text-white">
                             <Trash className="h-4 w-4" />
                           </Button>
                         </td>
@@ -269,6 +287,28 @@ const AdminDashboard = () => {
                 </div>
                 {showEditSubscriptionForm && (
                   <EditSubscriptionForm onSubmit={handleEditSubscription} onCancel={() => setShowEditSubscriptionForm(false)} />
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {activeTab === 'content' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>إدارة المحتوى</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button onClick={() => setShowContentManagementForm(true)} className="mb-4 bg-blue-500 hover:bg-blue-600 text-white">
+                  <FileText className="mr-2" /> تعديل المحتوى
+                </Button>
+                <Button onClick={() => setShowPopupAdForm(true)} className="mb-4 ml-4 bg-purple-500 hover:bg-purple-600 text-white">
+                  <PlusCircle className="mr-2" /> إضافة إعلان منبثق
+                </Button>
+                {showContentManagementForm && (
+                  <ContentManagementForm onSubmit={handleContentManagement} onCancel={() => setShowContentManagementForm(false)} />
+                )}
+                {showPopupAdForm && (
+                  <PopupAdForm onSubmit={handlePopupAd} onCancel={() => setShowPopupAdForm(false)} />
                 )}
               </CardContent>
             </Card>
