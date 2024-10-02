@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StarIcon, Truck, CreditCard, Plus, Minus } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { restaurants } from '@/data/restaurants';
-import { toast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [cart, setCart] = useState({});
+  const { toast } = useToast();
 
   const restaurant = restaurants.find(r => r.id === Number(id));
 
@@ -73,8 +74,6 @@ const RestaurantDetails = () => {
       return;
     }
     
-    // Here you would typically send the order to a backend API
-    // For now, we'll just show a success message
     toast({
       title: "تم تقديم الطلب بنجاح",
       description: `تم إرسال طلبك إلى ${restaurant.name}. سيتم التواصل معك قريبًا لتأكيد الطلب.`,
