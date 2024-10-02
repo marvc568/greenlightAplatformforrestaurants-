@@ -4,8 +4,27 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 
-const AddRestaurantForm = ({ onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
+interface MenuItem {
+  name: string;
+  description: string;
+  price: string;
+  image: File | null;
+}
+
+interface FormData {
+  name: string;
+  cuisine: string;
+  phone: string;
+  address: string;
+  cashPayment: boolean;
+  onlinePayment: boolean;
+  image: File | null;
+  location: string;
+  menu: MenuItem[];
+}
+
+const AddRestaurantForm = ({ onSubmit, onCancel }: { onSubmit: (data: FormData) => void, onCancel: () => void }) => {
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     cuisine: '',
     phone: '',
@@ -17,16 +36,18 @@ const AddRestaurantForm = ({ onSubmit, onCancel }) => {
     menu: []
   });
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     }));
   };
 
-  const handleImageUpload = (e) => {
-    setFormData(prev => ({ ...prev, image: e.target.files[0] }));
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFormData(prev => ({ ...prev, image: e.target.files![0] }));
+    }
   };
 
   const handleAddMenuItem = () => {
@@ -36,14 +57,14 @@ const AddRestaurantForm = ({ onSubmit, onCancel }) => {
     }));
   };
 
-  const handleMenuItemChange = (index, field, value) => {
+  const handleMenuItemChange = (index: number, field: keyof MenuItem, value: string | File | null) => {
     setFormData(prev => ({
       ...prev,
       menu: prev.menu.map((item, i) => i === index ? { ...item, [field]: value } : item)
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
@@ -55,11 +76,19 @@ const AddRestaurantForm = ({ onSubmit, onCancel }) => {
       <Input name="phone" placeholder="أرقام التواصل" onChange={handleInputChange} required />
       <Textarea name="address" placeholder="العنوان الكامل" onChange={handleInputChange} required />
       <div className="flex items-center space-x-2">
-        <Checkbox id="cashPayment" name="cashPayment" checked={formData.cashPayment} onCheckedChange={(checked) => setFormData(prev => ({ ...prev, cashPayment: checked }))} />
+        <Checkbox 
+          id="cashPayment" 
+          checked={formData.cashPayment} 
+          onCheckedChange={(checked) => setFormData(prev => ({ ...prev, cashPayment: checked as boolean }))}
+        />
         <label htmlFor="cashPayment">الدفع عند الاستلام</label>
       </div>
       <div className="flex items-center space-x-2">
-        <Checkbox id="onlinePayment" name="onlinePayment" checked={formData.onlinePayment} onCheckedChange={(checked) => setFormData(prev => ({ ...prev, onlinePayment: checked }))} />
+        <Checkbox 
+          id="onlinePayment" 
+          checked={formData.onlinePayment} 
+          onCheckedChange={(checked) => setFormData(prev => ({ ...prev, onlinePayment: checked as boolean }))}
+        />
         <label htmlFor="onlinePayment">الدفع الإلكتروني</label>
       </div>
       <Input type="file" onChange={handleImageUpload} accept="image/*" />
@@ -68,10 +97,31 @@ const AddRestaurantForm = ({ onSubmit, onCancel }) => {
       <h3 className="font-bold mt-4">قائمة الطعام</h3>
       {formData.menu.map((item, index) => (
         <div key={index} className="space-y-2">
-          <Input placeholder="اسم الطبق" value={item.name} onChange={(e) => handleMenuItemChange(index, 'name', e.target.value)} />
-          <Textarea placeholder="وصف الطبق" value={item.description} onChange={(e) => handleMenuItemChange(index, 'description', e.target.value)} />
-          <Input type="number" placeholder="السعر" value={item.price} onChange={(e) => handleMenuItemChange(index, 'price', e.target.value)} />
-          <Input type="file" onChange={(e) => handleMenuItemChange(index, 'image', e.target.files[0])} accept="image/*" />
+          <Input 
+            placeholder="اسم الطبق" 
+            value={item.name} 
+            onChange={(e) => handleMenuItemChange(index, 'name', e.target.value)} 
+          />
+          <Textarea 
+            placeholder="وصف الطبق" 
+            value={item.description} 
+            onChange={(e) => handleMenuItemChange(index, 'description', e.target.value)} 
+          />
+          <Input 
+            type="number" 
+            placeholder="السعر" 
+            value={item.price} 
+            onChange={(e) => handleMenuItemChange(index, 'price', e.target.value)} 
+          />
+          <Input 
+            type="file" 
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                handleMenuItemChange(index, 'image', e.target.files[0])
+              }
+            }} 
+            accept="image/*" 
+          />
         </div>
       ))}
       <Button type="button" onClick={handleAddMenuItem}>إضافة طبق جديد</Button>

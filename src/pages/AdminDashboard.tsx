@@ -11,9 +11,17 @@ import EditSubscriptionForm from '@/components/EditSubscriptionForm';
 import ContentManagementForm from '@/components/ContentManagementForm';
 import PopupAdForm from '@/components/PopupAdForm';
 
+interface Message {
+  id: number;
+  from: string;
+  subject: string;
+  date: string;
+  content: string;
+}
+
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     { id: 1, from: 'محمد أحمد', subject: 'استفسار عن الاشتراك', date: '2024-03-01', content: '' },
     { id: 2, from: 'سارة خالد', subject: 'مشكلة في الدفع', date: '2024-03-02', content: '' },
     { id: 3, from: 'أحمد علي', subject: 'طلب إضافة مطعم', date: '2024-03-03', content: '' },
@@ -23,7 +31,7 @@ const AdminDashboard = () => {
   const [showEditSubscriptionForm, setShowEditSubscriptionForm] = useState(false);
   const [showContentManagementForm, setShowContentManagementForm] = useState(false);
   const [showPopupAdForm, setShowPopupAdForm] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
   const handleAddRestaurant = (restaurantData) => {
     console.log('Adding new restaurant:', restaurantData);
@@ -71,6 +79,8 @@ const AdminDashboard = () => {
     setShowPopupAdForm(false);
   };
 
+
+  return (
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
       <BackButton />
@@ -316,6 +326,7 @@ const AdminDashboard = () => {
         </CardContent>
       </Card>
     </div>
+  );
   );
 };
 

@@ -3,24 +3,39 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-const EditAdForm = ({ onSubmit, onCancel, initialData = {} }) => {
-  const [formData, setFormData] = useState({
+interface AdFormData {
+  title: string;
+  description: string;
+  validUntil: string;
+  image: File | null;
+}
+
+interface EditAdFormProps {
+  onSubmit: (data: AdFormData) => void;
+  onCancel: () => void;
+  initialData?: Partial<AdFormData>;
+}
+
+const EditAdForm: React.FC<EditAdFormProps> = ({ onSubmit, onCancel, initialData = {} }) => {
+  const [formData, setFormData] = useState<AdFormData>({
     title: initialData.title || '',
     description: initialData.description || '',
     validUntil: initialData.validUntil || '',
     image: initialData.image || null
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleImageUpload = (e) => {
-    setFormData(prev => ({ ...prev, image: e.target.files[0] }));
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFormData(prev => ({ ...prev, image: e.target.files![0] }));
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };

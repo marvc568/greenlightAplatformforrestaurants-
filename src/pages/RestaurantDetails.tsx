@@ -20,7 +20,7 @@ interface CartItem {
 }
 
 const RestaurantDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [cart, setCart] = useState<CartItem>({});
   const [paymentMethod, setPaymentMethod] = useState('cash');

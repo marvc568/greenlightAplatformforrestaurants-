@@ -3,19 +3,31 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-const EditSubscriptionForm = ({ onSubmit, onCancel, initialData = {} }) => {
-  const [formData, setFormData] = useState({
+interface SubscriptionFormData {
+  name: string;
+  price: string;
+  features: string;
+}
+
+interface EditSubscriptionFormProps {
+  onSubmit: (data: SubscriptionFormData) => void;
+  onCancel: () => void;
+  initialData?: Partial<SubscriptionFormData>;
+}
+
+const EditSubscriptionForm: React.FC<EditSubscriptionFormProps> = ({ onSubmit, onCancel, initialData = {} }) => {
+  const [formData, setFormData] = useState<SubscriptionFormData>({
     name: initialData.name || '',
     price: initialData.price || '',
     features: initialData.features || ''
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
