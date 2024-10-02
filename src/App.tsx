@@ -12,6 +12,8 @@ import About from "./pages/About";
 import BecomePartner from "./pages/BecomePartner";
 import Subscriptions from "./pages/Subscriptions";
 import ContactUs from "./pages/ContactUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfUse from "./pages/TermsOfUse";
 import "./styles/globals.css";
 
 const queryClient = new QueryClient();
@@ -32,6 +34,8 @@ const App = () => (
           <Route path="/become-partner" element={<BecomePartner />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
