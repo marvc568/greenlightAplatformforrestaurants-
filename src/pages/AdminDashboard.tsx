@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart, Users, ShoppingBag, DollarSign } from 'lucide-react';
+import { BarChart, Users, ShoppingBag, DollarSign, Mail } from 'lucide-react';
+import BackButton from '@/components/BackButton';
 
 const AdminDashboard = () => {
+  const [messages, setMessages] = useState([
+    { id: 1, from: 'محمد أحمد', subject: 'استفسار عن الاشتراك', date: '2024-03-01' },
+    { id: 2, from: 'سارة خالد', subject: 'مشكلة في الدفع', date: '2024-03-02' },
+    { id: 3, from: 'أحمد علي', subject: 'طلب إضافة مطعم', date: '2024-03-03' },
+  ]);
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
-      <Card className="max-w-6xl mx-auto">
+      <BackButton />
+      <Card className="max-w-6xl mx-auto mt-12">
         <CardHeader>
           <CardTitle className="text-3xl font-bold">لوحة التحكم</CardTitle>
         </CardHeader>
@@ -71,6 +79,38 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
           </div>
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Mail className="mr-2" />
+                صندوق الوارد
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <table className="w-full">
+                <thead>
+                  <tr>
+                    <th className="text-right">من</th>
+                    <th className="text-right">الموضوع</th>
+                    <th className="text-right">التاريخ</th>
+                    <th className="text-right">الإجراء</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {messages.map((message) => (
+                    <tr key={message.id}>
+                      <td>{message.from}</td>
+                      <td>{message.subject}</td>
+                      <td>{message.date}</td>
+                      <td>
+                        <Button className="bg-blue-500 hover:bg-blue-600 text-white">عرض</Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
         </CardContent>
       </Card>
     </div>

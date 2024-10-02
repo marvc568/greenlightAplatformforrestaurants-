@@ -13,7 +13,7 @@ const Index = () => {
         <nav>
           <Link to="/login"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">تسجيل الدخول</Button></Link>
           <Link to="/register"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">إنشاء حساب</Button></Link>
-          <Link to="/partner"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">كن شريكًا</Button></Link>
+          <Link to="/become-partner"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">كن شريكًا</Button></Link>
           <Link to="/subscriptions"><Button variant="outline" className="bg-blue-500 hover:bg-blue-600 text-white">الاشتراكات</Button></Link>
         </nav>
       </header>
@@ -21,7 +21,7 @@ const Index = () => {
       <main className="container mx-auto mt-10 p-4">
         <section className="text-center mb-10">
           <h2 className="text-4xl font-bold mb-4">مرحبًا بك في Green Light</h2>
-          <p className="text-xl">منصتك المثالية لاكتشاف أفضل المطاعم وطلب الطعام المفضل لديك بسهولة.</p>
+          <p className="text-xl">منصتك المثالية لاكتشاف أفضل المطاعم و طلب الطعام المفضل لديك بسهولة.</p>
         </section>
 
         <section className="mb-10">
@@ -41,7 +41,7 @@ const Index = () => {
         <section className="mb-10">
           <h3 className="text-2xl font-bold mb-4">المطاعم المميزة</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <Card key={i}>
                 <CardHeader>
                   <CardTitle>مطعم {i}</CardTitle>
