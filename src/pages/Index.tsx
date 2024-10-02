@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, Car
+dHeader, CardTitle } from "@/components/ui/card"
 import { MessageCircle, Settings, Download, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RestaurantCard from '@/components/RestaurantCard';
@@ -13,6 +14,14 @@ import DownloadAppButton from '@/components/DownloadAppButton';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [welcomeMessage, setWelcomeMessage] = useState('');
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfUse, setShowTermsOfUse] = useState(false);
+
+  useEffect(() => {
+    // Fetch welcome message, privacy policy, and terms of use from your backend
+    setWelcomeMessage('مرحبًا بك في Green Light، منصتك المفضلة لطلب الطعام!');
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 text-white">
@@ -32,7 +41,7 @@ const Index = () => {
       <main className="container mx-auto mt-10 p-4">
         <section className="text-center mb-10">
           <h2 className="text-4xl font-bold mb-4">مرحبًا بك في Green Light</h2>
-          <p className="text-xl">منصتك المثالية لاكتشاف أفضل المطاعم و طلب الطعام المفضل لديك بسهولة.</p>
+          <p className="text-xl">{welcomeMessage}</p>
         </section>
 
         <LargeMovingAd />
@@ -76,9 +85,45 @@ const Index = () => {
           <div>
             <Link to="/about"><Button variant="link" className="text-white">من نحن</Button></Link>
             <Link to="/contact"><Button variant="link" className="text-white">اتصل بنا</Button></Link>
+            <Button variant="link" className="text-white" onClick={() => setShowPrivacyPolicy(true)}>سياسة الخصوصية</Button>
+            <Button variant="link" className="text-white" onClick={() => setShowTermsOfUse(true)}>شروط الاستخدام</Button>
           </div>
         </div>
       </footer>
+
+      {showPrivacyPolicy && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <Card className="w-3/4 max-h-3/4 overflow-auto">
+            <CardHeader>
+              <CardTitle>سياسة الخصوصية</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Add your privacy policy content here */}
+              <p>هنا يتم عرض محتوى سياسة الخصوصية...</p>
+            </CardContent>
+            <CardFooter>
+              <Button onClick={() => setShowPrivacyPolicy(false)}>إغلاق</Button>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
+
+      {showTermsOfUse && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <Card className="w-3/4 max-h-3/4 overflow-auto">
+            <CardHeader>
+              <CardTitle>شروط الاستخدام</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Add your terms of use content here */}
+              <p>هنا يتم عرض محتوى شروط الاستخدام...</p>
+            </CardContent>
+            <CardFooter>
+              <Button onClick={() => setShowTermsOfUse(false)}>إغلاق</Button>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
 
       <SupportButton />
       <DownloadAppButton />

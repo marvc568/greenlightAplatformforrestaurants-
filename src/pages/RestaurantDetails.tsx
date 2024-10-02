@@ -8,6 +8,7 @@ import { restaurants } from '@/data/restaurants';
 import { useToast } from "@/hooks/use-toast"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 
 interface MenuItem {
   name: string;
@@ -24,6 +25,7 @@ const RestaurantDetails = () => {
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [cart, setCart] = useState<CartItem>({});
   const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const { toast } = useToast();
 
   const restaurant = restaurants.find(r => r.id === Number(id));
@@ -77,6 +79,11 @@ const RestaurantDetails = () => {
     }, 0);
   };
 
+  const handlePaymentMethodChange = (value: string) => {
+    setPaymentMethod(value);
+    setShowPaymentForm(true);
+  };
+
   const placeOrder = () => {
     if (Object.keys(cart).length === 0) {
       toast({
@@ -92,6 +99,7 @@ const RestaurantDetails = () => {
       description: `تم إرسال طلبك إلى ${restaurant.name}. سيتم التواصل معك قريبًا لتأكيد الطلب.`,
     });
     setCart({});
+    setShowPaymentForm(false);
   };
 
   return (
@@ -175,7 +183,7 @@ const RestaurantDetails = () => {
           </div>
           <div className="mt-4">
             <h4 className="font-bold text-xl mb-2">اختر طريقة الدفع</h4>
-            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+            <RadioGroup value={paymentMethod} onValueChange={handlePaymentMethodChange}>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="cash" id="cash" />
                 <Label htmlFor="cash">الدفع عند الاستلام (كاش)</Label>
@@ -190,6 +198,26 @@ const RestaurantDetails = () => {
               </div>
             </RadioGroup>
           </div>
+          {showPaymentForm && (
+            <div className="mt-4">
+              {paymentMethod === 'card' && (
+                <div className="space-y-2">
+                  <Input placeholder="رقم البطاقة" />
+                  <div className="flex space-x-2">
+                    <Input placeholder="تاريخ الانتهاء" />
+                    <Input placeholder="CVV" />
+                  </div>
+                  <Input placeholder="اسم حامل البطاقة" />
+                </div>
+              )}
+              {paymentMethod === 'wallet' && (
+                <div className="space-y-2">
+                  <Input placeholder="رقم المحفظة الإلكترونية" />
+                  <Input placeholder="رمز التحقق" />
+                </div>
+              )}
+            </div>
+          )}
           <Button onClick={placeOrder} className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white">
             {paymentMethod === 'cash' && <CreditCard className="mr-2 h-4 w-4" />}
             {paymentMethod === 'card' && <CreditCard className="mr-2 h-4 w-4" />}

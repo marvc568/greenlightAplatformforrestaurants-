@@ -10,6 +10,7 @@ import EditAdForm from '@/components/EditAdForm';
 import EditSubscriptionForm from '@/components/EditSubscriptionForm';
 import ContentManagementForm from '@/components/ContentManagementForm';
 import PopupAdForm from '@/components/PopupAdForm';
+import { useToast } from "@/hooks/use-toast"
 
 interface Message {
   id: number;
@@ -32,24 +33,50 @@ const AdminDashboard = () => {
   const [showContentManagementForm, setShowContentManagementForm] = useState(false);
   const [showPopupAdForm, setShowPopupAdForm] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [subscriptions, setSubscriptions] = useState([
+    { name: 'الخطة الأساسية', price: 99 },
+    { name: 'الخطة المتقدمة', price: 199 },
+    { name: 'الخطة الاحترافية', price: 299 },
+  ]);
+  const { toast } = useToast();
 
   const handleAddRestaurant = (restaurantData) => {
     console.log('Adding new restaurant:', restaurantData);
     setShowAddRestaurantForm(false);
+    toast({
+      title: "تمت إضافة المطعم",
+      description: "تم إضافة المطعم الجديد بنجاح",
+    });
   };
 
   const handleEditAd = (adData) => {
     console.log('Editing ad:', adData);
     setShowEditAdForm(false);
+    toast({
+      title: "تم تحديث الإعلان",
+      description: "تم تحديث الإعلان بنجاح",
+    });
   };
 
   const handleEditSubscription = (subscriptionData) => {
-    console.log('Editing subscription:', subscriptionData);
+    setSubscriptions(prevSubscriptions => 
+      prevSubscriptions.map(sub => 
+        sub.name === subscriptionData.name ? { ...sub, price: parseFloat(subscriptionData.price) } : sub
+      )
+    );
     setShowEditSubscriptionForm(false);
+    toast({
+      title: "تم تحديث الاشتراك",
+      description: "تم تحديث خطة الاشتراك بنجاح",
+    });
   };
 
   const handleDeleteAd = (adId) => {
     console.log('Deleting ad:', adId);
+    toast({
+      title: "تم حذف الإعلان",
+      description: "تم حذف الإعلان بنجاح",
+    });
   };
 
   const handleViewMessage = (message) => {
@@ -59,24 +86,44 @@ const AdminDashboard = () => {
   const handleReplyMessage = (messageId, reply) => {
     console.log('Replying to message:', messageId, reply);
     setSelectedMessage(null);
+    toast({
+      title: "تم إرسال الرد",
+      description: "تم إرسال ردك بنجاح",
+    });
   };
 
   const handleEditRestaurant = (restaurantId) => {
     console.log('Editing restaurant:', restaurantId);
+    toast({
+      title: "تم فتح نموذج التحرير",
+      description: "يمكنك الآن تحرير بيانات المطعم",
+    });
   };
 
   const handleDeleteRestaurant = (restaurantId) => {
     console.log('Deleting restaurant:', restaurantId);
+    toast({
+      title: "تم حذف المطعم",
+      description: "تم حذف المطعم بنجاح",
+    });
   };
 
   const handleContentManagement = (contentData) => {
     console.log('Updating content:', contentData);
     setShowContentManagementForm(false);
+    toast({
+      title: "تم تحديث المحتوى",
+      description: "تم تحديث محتوى الموقع بنجاح",
+    });
   };
 
   const handlePopupAd = (adData) => {
     console.log('Creating popup ad:', adData);
     setShowPopupAdForm(false);
+    toast({
+      title: "تم إنشاء الإعلان المنبثق",
+      description: "تم إنشاء الإعلان المنبثق بنجاح",
+    });
   };
 
   return (
@@ -271,27 +318,15 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <Card>
-                    <CardContent>
-                      <h3 className="font-bold">الخطة الأساسية</h3>
-                      <p>السعر: 99 جنيه مصري/شهريًا</p>
-                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent>
-                      <h3 className="font-bold">الخطة المتقدمة</h3>
-                      <p>السعر: 199 جنيه مصري/شهريًا</p>
-                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent>
-                      <h3 className="font-bold">الخطة الاحترافية</h3>
-                      <p>السعر: 299 جنيه مصري/شهريًا</p>
-                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
-                    </CardContent>
-                  </Card>
+                  {subscriptions.map((subscription, index) => (
+                    <Card key={index}>
+                      <CardContent>
+                        <h3 className="font-bold">{subscription.name}</h3>
+                        <p>السعر: {subscription.price} جنيه مصري/شهريًا</p>
+                        <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
                 {showEditSubscriptionForm && (
                   <EditSubscriptionForm onSubmit={handleEditSubscription} onCancel={() => setShowEditSubscriptionForm(false)} />
