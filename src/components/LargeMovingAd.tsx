@@ -5,22 +5,22 @@ const ads = [
   {
     title: "بازوكا",
     description: "أشهى المشويات والشاورما",
-    image: "https://example.com/bazooka.jpg",
+    image: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "أبو شقرا",
     description: "ألذ المأكولات الشرقية",
-    image: "https://example.com/abu-shakra.jpg",
+    image: "https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "برجر كينج",
     description: "برجر شهي بطعم لا يقاوم",
-    image: "https://example.com/burger-king.jpg",
+    image: "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
   {
     title: "KFC",
     description: "دجاج مقرمش ولذيذ",
-    image: "https://example.com/kfc.jpg",
+    image: "https://images.unsplash.com/photo-1513639776629-7b61b0ac49cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
 ];
 
