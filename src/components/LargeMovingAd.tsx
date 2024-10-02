@@ -3,9 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ads = [
   {
-    title: "بازوكا أبو شقرا",
+    title: "بازوكا",
     description: "أشهى المشويات والشاورما",
-    image: "https://example.com/bazooka-abu-shakra.jpg",
+    image: "https://example.com/bazooka.jpg",
+  },
+  {
+    title: "أبو شقرا",
+    description: "ألذ المأكولات الشرقية",
+    image: "https://example.com/abu-shakra.jpg",
   },
   {
     title: "برجر كينج",
