@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StarIcon, Truck, CreditCard, Plus, Minus } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { restaurants } from '@/data/restaurants';
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
@@ -168,6 +168,7 @@ const RestaurantDetails = () => {
       </Card>
     </div>
   );
+
 };
 
 export default RestaurantDetails;
