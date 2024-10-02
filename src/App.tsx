@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./pages/AdminLogin";
 import About from "./pages/About";
 import BecomePartner from "./pages/BecomePartner";
 import Subscriptions from "./pages/Subscriptions";
@@ -25,7 +26,8 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/restaurant/:id" element={<RestaurantDetails />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/become-partner" element={<BecomePartner />} />
           <Route path="/subscriptions" element={<Subscriptions />} />

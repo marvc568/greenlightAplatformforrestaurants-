@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import BackButton from '@/components/BackButton';
 
 interface Plan {
@@ -13,6 +14,7 @@ interface Plan {
 const Subscriptions = () => {
   const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('credit_card');
 
   const plans: Plan[] = [
     { name: 'الأساسية', price: 99, features: ['إدراج المطعم', 'تحديثات أسبوعية', 'دعم عبر البريد الإلكتروني'] },
@@ -68,16 +70,43 @@ const Subscriptions = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handlePayment} className="space-y-4">
-                <Input placeholder="رقم البطاقة" required />
-                <div className="flex space-x-4">
-                  <Input placeholder="MM/YY" required />
-                  <Input placeholder="CVV" required />
-                </div>
-                <Input placeholder="الاسم على البطاقة" required />
+                <Select onValueChange={setPaymentMethod} defaultValue={paymentMethod}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="اختر طريقة الدفع" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="credit_card">بطاقة ائتمان</SelectItem>
+                    <SelectItem value="vodafone_cash">فودافون كاش</SelectItem>
+                    <SelectItem value="pay_mob">Pay MOB</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {paymentMethod === 'credit_card' && (
+                  <>
+                    <Input placeholder="رقم البطاقة" required />
+                    <div className="flex space-x-4">
+                      <Input placeholder="MM/YY" required />
+                      <Input placeholder="CVV" required />
+                    </div>
+                    <Input placeholder="الاسم على البطاقة" required />
+                  </>
+                )}
+
+                {paymentMethod === 'vodafone_cash' && (
+                  <Input placeholder="رقم الهاتف" required />
+                )}
+
+                {paymentMethod === 'pay_mob' && (
+                  <Input placeholder="رقم الحساب Pay MOB" required />
+                )}
+
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white">
                   ادفع {selectedPlan.price} ريال
                 </Button>
               </form>
+              <p className="mt-4 text-center text-sm">
+                أو يمكنك <Button variant="link" className="p-0 h-auto font-normal">التواصل مع الدعم الفني</Button> للاشتراك
+              </p>
             </CardContent>
           </Card>
         )}

@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import RestaurantCard from '@/components/RestaurantCard';
+import NewsBar from '@/components/NewsBar';
+import { restaurants } from '@/data/restaurants';
 
 const Index = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 text-white">
       <header className="p-4 flex justify-between items-center">
@@ -14,9 +19,12 @@ const Index = () => {
           <Link to="/login"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">تسجيل الدخول</Button></Link>
           <Link to="/register"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">إنشاء حساب</Button></Link>
           <Link to="/become-partner"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">كن شريكًا</Button></Link>
-          <Link to="/subscriptions"><Button variant="outline" className="bg-blue-500 hover:bg-blue-600 text-white">الاشتراكات</Button></Link>
+          <Link to="/subscriptions"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">الاشتراكات</Button></Link>
+          <Link to="/admin-login"><Button variant="outline" className="bg-green-500 hover:bg-green-600 text-white"><Settings className="mr-2" />لوحة التحكم</Button></Link>
         </nav>
       </header>
+
+      <NewsBar />
 
       <main className="container mx-auto mt-10 p-4">
         <section className="text-center mb-10">
@@ -31,7 +39,11 @@ const Index = () => {
             </CardHeader>
             <CardContent>
               <div className="flex space-x-2">
-                <Input placeholder="اسم المطعم أو نوع الطعام" />
+                <Input 
+                  placeholder="اسم المطعم أو نوع الطعام" 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <Button className="bg-blue-500 hover:bg-blue-600 text-white">بحث</Button>
               </div>
             </CardContent>
@@ -40,21 +52,12 @@ const Index = () => {
 
         <section className="mb-10">
           <h3 className="text-2xl font-bold mb-4">المطاعم المميزة</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <CardTitle>مطعم {i}</CardTitle>
-                  <CardDescription>وصف قصير للمطعم</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <img src={`https://picsum.photos/seed/${i}/300/200`} alt={`مطعم ${i}`} className="w-full h-40 object-cover mb-2" />
-                  <p>تقييم: ⭐⭐⭐⭐</p>
-                </CardContent>
-                <CardFooter>
-                  <Link to={`/restaurant/${i}`}><Button className="bg-blue-500 hover:bg-blue-600 text-white">عرض القائمة</Button></Link>
-                </CardFooter>
-              </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {restaurants.filter(restaurant => 
+              restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
+            ).map((restaurant) => (
+              <RestaurantCard key={restaurant.id} restaurant={restaurant} />
             ))}
           </div>
         </section>
