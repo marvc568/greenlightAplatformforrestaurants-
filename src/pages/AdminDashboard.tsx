@@ -5,6 +5,7 @@ import { BarChart, Users, ShoppingBag, DollarSign, Mail, PlusCircle, Edit, Trash
 import BackButton from '@/components/BackButton';
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { restaurants } from '@/data/restaurants'; // Import the restaurants data
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
