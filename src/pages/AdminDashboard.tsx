@@ -4,16 +4,55 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BarChart, Users, ShoppingBag, DollarSign, Mail, PlusCircle, Edit, Trash } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
 import { restaurants } from '@/data/restaurants';
+import AddRestaurantForm from '@/components/AddRestaurantForm';
+import EditAdForm from '@/components/EditAdForm';
+import EditSubscriptionForm from '@/components/EditSubscriptionForm';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [messages, setMessages] = useState([
-    { id: 1, from: 'محمد أحمد', subject: 'استفسار عن الاشتراك', date: '2024-03-01' },
-    { id: 2, from: 'سارة خالد', subject: 'مشكلة في الدفع', date: '2024-03-02' },
-    { id: 3, from: 'أحمد علي', subject: 'طلب إضافة مطعم', date: '2024-03-03' },
+    { id: 1, from: 'محمد أحمد', subject: 'استفسار عن الاشتراك', date: '2024-03-01', content: '' },
+    { id: 2, from: 'سارة خالد', subject: 'مشكلة في الدفع', date: '2024-03-02', content: '' },
+    { id: 3, from: 'أحمد علي', subject: 'طلب إضافة مطعم', date: '2024-03-03', content: '' },
   ]);
+  const [showAddRestaurantForm, setShowAddRestaurantForm] = useState(false);
+  const [showEditAdForm, setShowEditAdForm] = useState(false);
+  const [showEditSubscriptionForm, setShowEditSubscriptionForm] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
+  const handleAddRestaurant = (restaurantData) => {
+    // Logic to add new restaurant
+    console.log('Adding new restaurant:', restaurantData);
+    setShowAddRestaurantForm(false);
+  };
+
+  const handleEditAd = (adData) => {
+    // Logic to edit ad
+    console.log('Editing ad:', adData);
+    setShowEditAdForm(false);
+  };
+
+  const handleEditSubscription = (subscriptionData) => {
+    // Logic to edit subscription
+    console.log('Editing subscription:', subscriptionData);
+    setShowEditSubscriptionForm(false);
+  };
+
+  const handleDeleteAd = (adId) => {
+    // Logic to delete ad
+    console.log('Deleting ad:', adId);
+  };
+
+  const handleViewMessage = (message) => {
+    setSelectedMessage(message);
+  };
+
+  const handleReplyMessage = (messageId, reply) => {
+    // Logic to reply to message
+    console.log('Replying to message:', messageId, reply);
+    setSelectedMessage(null);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
@@ -95,7 +134,8 @@ const AdminDashboard = () => {
                           <td>{message.subject}</td>
                           <td>{message.date}</td>
                           <td>
-                            <Button className="bg-blue-500 hover:bg-blue-600 text-white">عرض</Button>
+                            <Button onClick={() => handleViewMessage(message)} className="bg-blue-500 hover:bg-blue-600 text-white mr-2">عرض</Button>
+                            <Button onClick={() => handleReplyMessage(message.id, '')} className="bg-green-500 hover:bg-green-600 text-white">رد</Button>
                           </td>
                         </tr>
                       ))}
@@ -103,6 +143,21 @@ const AdminDashboard = () => {
                   </table>
                 </CardContent>
               </Card>
+              {selectedMessage && (
+                <Card className="mt-4">
+                  <CardHeader>
+                    <CardTitle>تفاصيل الرسالة</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p><strong>من:</strong> {selectedMessage.from}</p>
+                    <p><strong>الموضوع:</strong> {selectedMessage.subject}</p>
+                    <p><strong>التاريخ:</strong> {selectedMessage.date}</p>
+                    <p><strong>المحتوى:</strong> {selectedMessage.content}</p>
+                    <Input className="mt-4" placeholder="اكتب ردك هنا" />
+                    <Button onClick={() => handleReplyMessage(selectedMessage.id, '')} className="mt-2 bg-green-500 hover:bg-green-600 text-white">إرسال الرد</Button>
+                  </CardContent>
+                </Card>
+              )}
             </>
           )}
 
@@ -112,9 +167,12 @@ const AdminDashboard = () => {
                 <CardTitle>إدارة المطاعم</CardTitle>
               </CardHeader>
               <CardContent>
-                <Button className="mb-4 bg-green-500 hover:bg-green-600 text-white">
+                <Button onClick={() => setShowAddRestaurantForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
                   <PlusCircle className="mr-2" /> إضافة مطعم جديد
                 </Button>
+                {showAddRestaurantForm && (
+                  <AddRestaurantForm onSubmit={handleAddRestaurant} onCancel={() => setShowAddRestaurantForm(false)} />
+                )}
                 <table className="w-full">
                   <thead>
                     <tr>
@@ -146,47 +204,18 @@ const AdminDashboard = () => {
             </Card>
           )}
 
-          {activeTab === 'users' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>إدارة المستخدمين</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Input className="mb-4" placeholder="البحث عن مستخدم..." />
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-right">اسم المستخدم</th>
-                      <th className="text-right">البريد الإلكتروني</th>
-                      <th className="text-right">تاريخ التسجيل</th>
-                      <th className="text-right">الإجراءات</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>أحمد محمد</td>
-                      <td>ahmed@example.com</td>
-                      <td>2024-01-15</td>
-                      <td>
-                        <Button className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعليق</Button>
-                        <Button className="bg-red-500 hover:bg-red-600 text-white">حذف</Button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
-          )}
-
           {activeTab === 'ads' && (
             <Card>
               <CardHeader>
                 <CardTitle>إدارة الإعلانات</CardTitle>
               </CardHeader>
               <CardContent>
-                <Button className="mb-4 bg-green-500 hover:bg-green-600 text-white">
+                <Button onClick={() => setShowEditAdForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
                   <PlusCircle className="mr-2" /> إضافة إعلان جديد
                 </Button>
+                {showEditAdForm && (
+                  <EditAdForm onSubmit={handleEditAd} onCancel={() => setShowEditAdForm(false)} />
+                )}
                 <div className="space-y-4">
                   <Card>
                     <CardContent className="flex justify-between items-center">
@@ -195,10 +224,10 @@ const AdminDashboard = () => {
                         <p>صالح حتى: 2024-04-01</p>
                       </div>
                       <div>
-                        <Button className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
+                        <Button onClick={() => setShowEditAdForm(true)} className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button className="bg-red-500 hover:bg-red-600 text-white">
+                        <Button onClick={() => handleDeleteAd(1)} className="bg-red-500 hover:bg-red-600 text-white">
                           <Trash className="h-4 w-4" />
                         </Button>
                       </div>
@@ -219,25 +248,28 @@ const AdminDashboard = () => {
                   <Card>
                     <CardContent>
                       <h3 className="font-bold">الخطة الأساسية</h3>
-                      <p>السعر: 99 ريال/شهريًا</p>
-                      <Button className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
+                      <p>السعر: 99 جنيه مصري/شهريًا</p>
+                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent>
                       <h3 className="font-bold">الخطة المتقدمة</h3>
-                      <p>السعر: 199 ريال/شهريًا</p>
-                      <Button className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
+                      <p>السعر: 199 جنيه مصري/شهريًا</p>
+                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent>
                       <h3 className="font-bold">الخطة الاحترافية</h3>
-                      <p>السعر: 299 ريال/شهريًا</p>
-                      <Button className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
+                      <p>السعر: 299 جنيه مصري/شهريًا</p>
+                      <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
                     </CardContent>
                   </Card>
                 </div>
+                {showEditSubscriptionForm && (
+                  <EditSubscriptionForm onSubmit={handleEditSubscription} onCancel={() => setShowEditSubscriptionForm(false)} />
+                )}
               </CardContent>
             </Card>
           )}

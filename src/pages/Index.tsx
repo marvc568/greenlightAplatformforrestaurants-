@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle, Settings } from 'lucide-react';
+import { MessageCircle, Settings, Download, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RestaurantCard from '@/components/RestaurantCard';
 import NewsBar from '@/components/NewsBar';
 import { restaurants } from '@/data/restaurants';
+import SupportButton from '@/components/SupportButton';
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,6 +31,9 @@ const Index = () => {
         <section className="text-center mb-10">
           <h2 className="text-4xl font-bold mb-4">مرحبًا بك في Green Light</h2>
           <p className="text-xl">منصتك المثالية لاكتشاف أفضل المطاعم و طلب الطعام المفضل لديك بسهولة.</p>
+          <Button className="mt-4 bg-green-500 hover:bg-green-600 text-white">
+            <Download className="mr-2" /> تحميل التطبيق
+          </Button>
         </section>
 
         <section className="mb-10">
@@ -75,11 +79,7 @@ const Index = () => {
         </div>
       </footer>
 
-      <div className="fixed bottom-4 right-4">
-        <Button size="icon" className="rounded-full bg-yellow-500 hover:bg-yellow-600">
-          <MessageCircle className="h-6 w-6" />
-        </Button>
-      </div>
+      <SupportButton />
     </div>
   );
 };

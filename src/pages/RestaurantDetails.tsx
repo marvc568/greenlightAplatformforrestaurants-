@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StarIcon, Truck, CreditCard, Plus, Minus } from 'lucide-react';
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { StarIcon, Truck, CreditCard, Plus, Minus, Wallet } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { restaurants } from '@/data/restaurants';
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 
 interface MenuItem {
   name: string;
@@ -21,6 +23,7 @@ const RestaurantDetails = () => {
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const [cart, setCart] = useState<CartItem>({});
+  const [paymentMethod, setPaymentMethod] = useState('cash');
   const { toast } = useToast();
 
   const restaurant = restaurants.find(r => r.id === Number(id));
@@ -111,7 +114,7 @@ const RestaurantDetails = () => {
             <strong>التوصيل:</strong> 
             <span className="text-green-500 ml-2"><Truck className="inline mr-1" /> متوفر</span>
           </p>
-          <p className="mb-4"><strong>طرق الدفع:</strong> الدفع عند الاستلام، بطاقة ائتمان، Apple Pay</p>
+          <p className="mb-4"><strong>طرق الدفع:</strong> الدفع عند الاستلام، بطاقة ائتمان، محفظة إلكترونية</p>
           
           <h3 className="text-2xl font-bold mb-2">القائمة</h3>
           <div className="mb-4">
@@ -141,7 +144,7 @@ const RestaurantDetails = () => {
                       <div className="flex-grow">
                         <h4 className="font-bold">{item.name}</h4>
                         <p className="text-gray-600">{item.description}</p>
-                        <p className="font-bold mt-2">{item.price} ريال</p>
+                        <p className="font-bold mt-2">{item.price} جنيه مصري</p>
                       </div>
                       <div className="flex items-center">
                         <Button onClick={() => removeFromCart(item)} className="p-1 bg-red-500 hover:bg-red-600">
@@ -163,15 +166,34 @@ const RestaurantDetails = () => {
             {Object.entries(cart).map(([itemName, quantity]) => (
               <div key={itemName} className="flex justify-between items-center mb-2">
                 <span>{itemName} x {quantity}</span>
-                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName)?.price * (quantity as number)} ريال</span>
+                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName)?.price * quantity} جنيه مصري</span>
               </div>
             ))}
             <div className="border-t pt-2 mt-2">
-              <strong>المجموع: {getTotalPrice()} ريال</strong>
+              <strong>المجموع: {getTotalPrice()} جنيه مصري</strong>
             </div>
           </div>
+          <div className="mt-4">
+            <h4 className="font-bold text-xl mb-2">اختر طريقة الدفع</h4>
+            <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="cash" id="cash" />
+                <Label htmlFor="cash">الدفع عند الاستلام (كاش)</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="card" id="card" />
+                <Label htmlFor="card">بطاقة بنكية</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="wallet" id="wallet" />
+                <Label htmlFor="wallet">محفظة إلكترونية</Label>
+              </div>
+            </RadioGroup>
+          </div>
           <Button onClick={placeOrder} className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white">
-            <CreditCard className="mr-2 h-4 w-4" />
+            {paymentMethod === 'cash' && <CreditCard className="mr-2 h-4 w-4" />}
+            {paymentMethod === 'card' && <CreditCard className="mr-2 h-4 w-4" />}
+            {paymentMethod === 'wallet' && <Wallet className="mr-2 h-4 w-4" />}
             طلب الآن
           </Button>
         </CardContent>
