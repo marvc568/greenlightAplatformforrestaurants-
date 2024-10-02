@@ -171,12 +171,15 @@ const RestaurantDetails = () => {
           </div>
           <div className="mt-6 bg-gray-100 p-4 rounded">
             <h4 className="font-bold text-xl mb-2">سلة المشتريات</h4>
-            {Object.entries(cart).map(([itemName, quantity]) => (
-              <div key={itemName} className="flex justify-between items-center mb-2">
-                <span>{itemName} x {quantity}</span>
-                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName)?.price * quantity} جنيه مصري</span>
-              </div>
-            ))}
+            {Object.entries(cart).map(([itemName, quantity]) => {
+              const item = menu.flatMap(cat => cat.items).find(i => i.name === itemName);
+              return item ? (
+                <div key={itemName} className="flex justify-between items-center mb-2">
+                  <span>{itemName} x {quantity}</span>
+                  <span>{item.price * quantity} جنيه مصري</span>
+                </div>
+              ) : null;
+            })}
             <div className="border-t pt-2 mt-2">
               <strong>المجموع: {getTotalPrice()} جنيه مصري</strong>
             </div>
