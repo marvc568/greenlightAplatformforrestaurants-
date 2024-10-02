@@ -7,10 +7,20 @@ import BackButton from '@/components/BackButton';
 import { restaurants } from '@/data/restaurants';
 import { useToast } from "@/hooks/use-toast";
 
+interface MenuItem {
+  name: string;
+  price: number;
+  description: string;
+}
+
+interface CartItem {
+  [key: string]: number;
+}
+
 const RestaurantDetails = () => {
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState<CartItem>({});
   const { toast } = useToast();
 
   const restaurant = restaurants.find(r => r.id === Number(id));
@@ -34,7 +44,7 @@ const RestaurantDetails = () => {
     ]},
   ];
 
-  const addToCart = (item) => {
+  const addToCart = (item: MenuItem) => {
     setCart(prevCart => ({
       ...prevCart,
       [item.name]: (prevCart[item.name] || 0) + 1
@@ -45,7 +55,7 @@ const RestaurantDetails = () => {
     });
   };
 
-  const removeFromCart = (item) => {
+  const removeFromCart = (item: MenuItem) => {
     setCart(prevCart => {
       const newCart = { ...prevCart };
       if (newCart[item.name] > 1) {
@@ -153,7 +163,7 @@ const RestaurantDetails = () => {
             {Object.entries(cart).map(([itemName, quantity]) => (
               <div key={itemName} className="flex justify-between items-center mb-2">
                 <span>{itemName} x {quantity}</span>
-                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName).price * quantity} ريال</span>
+                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName)?.price * (quantity as number)} ريال</span>
               </div>
             ))}
             <div className="border-t pt-2 mt-2">
@@ -168,7 +178,6 @@ const RestaurantDetails = () => {
       </Card>
     </div>
   );
-
 };
 
 export default RestaurantDetails;
