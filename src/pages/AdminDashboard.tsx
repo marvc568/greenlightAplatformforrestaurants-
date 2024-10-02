@@ -12,32 +12,13 @@ import ContentManagementForm from '@/components/ContentManagementForm';
 import PopupAdForm from '@/components/PopupAdForm';
 import { useToast } from "@/hooks/use-toast"
 
-interface Message {
-  id: number;
-  from: string;
-  subject: string;
-  date: string;
-  content: string;
-}
-
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, from: 'محمد أحمد', subject: 'استفسار عن الاشتراك', date: '2024-03-01', content: '' },
-    { id: 2, from: 'سارة خالد', subject: 'مشكلة في الدفع', date: '2024-03-02', content: '' },
-    { id: 3, from: 'أحمد علي', subject: 'طلب إضافة مطعم', date: '2024-03-03', content: '' },
-  ]);
   const [showAddRestaurantForm, setShowAddRestaurantForm] = useState(false);
   const [showEditAdForm, setShowEditAdForm] = useState(false);
   const [showEditSubscriptionForm, setShowEditSubscriptionForm] = useState(false);
   const [showContentManagementForm, setShowContentManagementForm] = useState(false);
   const [showPopupAdForm, setShowPopupAdForm] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
-  const [subscriptions, setSubscriptions] = useState([
-    { name: 'الخطة الأساسية', price: 99 },
-    { name: 'الخطة المتقدمة', price: 199 },
-    { name: 'الخطة الاحترافية', price: 299 },
-  ]);
   const { toast } = useToast();
 
   const handleAddRestaurant = (restaurantData) => {
@@ -59,52 +40,11 @@ const AdminDashboard = () => {
   };
 
   const handleEditSubscription = (subscriptionData) => {
-    setSubscriptions(prevSubscriptions => 
-      prevSubscriptions.map(sub => 
-        sub.name === subscriptionData.name ? { ...sub, price: parseFloat(subscriptionData.price) } : sub
-      )
-    );
+    console.log('Editing subscription:', subscriptionData);
     setShowEditSubscriptionForm(false);
     toast({
       title: "تم تحديث الاشتراك",
       description: "تم تحديث خطة الاشتراك بنجاح",
-    });
-  };
-
-  const handleDeleteAd = (adId) => {
-    console.log('Deleting ad:', adId);
-    toast({
-      title: "تم حذف الإعلان",
-      description: "تم حذف الإعلان بنجاح",
-    });
-  };
-
-  const handleViewMessage = (message) => {
-    setSelectedMessage(message);
-  };
-
-  const handleReplyMessage = (messageId, reply) => {
-    console.log('Replying to message:', messageId, reply);
-    setSelectedMessage(null);
-    toast({
-      title: "تم إرسال الرد",
-      description: "تم إرسال ردك بنجاح",
-    });
-  };
-
-  const handleEditRestaurant = (restaurantId) => {
-    console.log('Editing restaurant:', restaurantId);
-    toast({
-      title: "تم فتح نموذج التحرير",
-      description: "يمكنك الآن تحرير بيانات المطعم",
-    });
-  };
-
-  const handleDeleteRestaurant = (restaurantId) => {
-    console.log('Deleting restaurant:', restaurantId);
-    toast({
-      title: "تم حذف المطعم",
-      description: "تم حذف المطعم بنجاح",
     });
   };
 
@@ -137,224 +77,129 @@ const AdminDashboard = () => {
           <div className="flex mb-4 space-x-2">
             <Button onClick={() => setActiveTab('overview')} variant={activeTab === 'overview' ? 'default' : 'outline'}>نظرة عامة</Button>
             <Button onClick={() => setActiveTab('restaurants')} variant={activeTab === 'restaurants' ? 'default' : 'outline'}>إدارة المطاعم</Button>
-            <Button onClick={() => setActiveTab('users')} variant={activeTab === 'users' ? 'default' : 'outline'}>إدارة المستخدمين</Button>
             <Button onClick={() => setActiveTab('ads')} variant={activeTab === 'ads' ? 'default' : 'outline'}>إدارة الإعلانات</Button>
             <Button onClick={() => setActiveTab('subscriptions')} variant={activeTab === 'subscriptions' ? 'default' : 'outline'}>إدارة الاشتراكات</Button>
             <Button onClick={() => setActiveTab('content')} variant={activeTab === 'content' ? 'default' : 'outline'}>إدارة المحتوى</Button>
           </div>
 
           {activeTab === 'overview' && (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <Card>
-                  <CardContent className="flex items-center p-4">
-                    <Users className="w-8 h-8 mr-4 text-blue-500" />
-                    <div>
-                      <p className="text-lg font-bold">1,234</p>
-                      <p className="text-gray-600">المستخدمون</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="flex items-center p-4">
-                    <ShoppingBag className="w-8 h-8 mr-4 text-green-500" />
-                    <div>
-                      <p className="text-lg font-bold">567</p>
-                      <p className="text-gray-600">الطلبات</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="flex items-center p-4">
-                    <BarChart className="w-8 h-8 mr-4 text-yellow-500" />
-                    <div>
-                      <p className="text-lg font-bold">89</p>
-                      <p className="text-gray-600">المطاعم</p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="flex items-center p-4">
-                    <DollarSign className="w-8 h-8 mr-4 text-red-500" />
-                    <div>
-                      <p className="text-lg font-bold">12,345 جنيه مصري</p>
-                      <p className="text-gray-600">الإيرادات</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Mail className="mr-2" />
-                    صندوق الوارد
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <table className="w-full">
-                    <thead>
-                      <tr>
-                        <th className="text-right">من</th>
-                        <th className="text-right">الموضوع</th>
-                        <th className="text-right">التاريخ</th>
-                        <th className="text-right">الإجراء</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {messages.map((message) => (
-                        <tr key={message.id}>
-                          <td>{message.from}</td>
-                          <td>{message.subject}</td>
-                          <td>{message.date}</td>
-                          <td>
-                            <Button onClick={() => handleViewMessage(message)} className="bg-blue-500 hover:bg-blue-600 text-white mr-2">عرض</Button>
-                            <Button onClick={() => handleReplyMessage(message.id, '')} className="bg-green-500 hover:bg-green-600 text-white">رد</Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <CardContent className="flex items-center p-4">
+                  <Users className="w-8 h-8 mr-4 text-blue-500" />
+                  <div>
+                    <p className="text-lg font-bold">1,234</p>
+                    <p className="text-gray-600">المستخدمون</p>
+                  </div>
                 </CardContent>
               </Card>
-              {selectedMessage && (
-                <Card className="mt-4">
-                  <CardHeader>
-                    <CardTitle>تفاصيل الرسالة</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p><strong>من:</strong> {selectedMessage.from}</p>
-                    <p><strong>الموضوع:</strong> {selectedMessage.subject}</p>
-                    <p><strong>التاريخ:</strong> {selectedMessage.date}</p>
-                    <p><strong>المحتوى:</strong> {selectedMessage.content}</p>
-                    <Input className="mt-4" placeholder="اكتب ردك هنا" />
-                    <Button onClick={() => handleReplyMessage(selectedMessage.id, '')} className="mt-2 bg-green-500 hover:bg-green-600 text-white">إرسال الرد</Button>
-                  </CardContent>
-                </Card>
-              )}
-            </>
+              <Card>
+                <CardContent className="flex items-center p-4">
+                  <ShoppingBag className="w-8 h-8 mr-4 text-green-500" />
+                  <div>
+                    <p className="text-lg font-bold">567</p>
+                    <p className="text-gray-600">الطلبات</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="flex items-center p-4">
+                  <BarChart className="w-8 h-8 mr-4 text-yellow-500" />
+                  <div>
+                    <p className="text-lg font-bold">89</p>
+                    <p className="text-gray-600">المطاعم</p>
+                  </div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="flex items-center p-4">
+                  <DollarSign className="w-8 h-8 mr-4 text-red-500" />
+                  <div>
+                    <p className="text-lg font-bold">12,345 جنيه مصري</p>
+                    <p className="text-gray-600">الإيرادات</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           )}
 
           {activeTab === 'restaurants' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>إدارة المطاعم</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={() => setShowAddRestaurantForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
-                  <PlusCircle className="mr-2" /> إضافة مطعم جديد
-                </Button>
-                {showAddRestaurantForm && (
-                  <AddRestaurantForm onSubmit={handleAddRestaurant} onCancel={() => setShowAddRestaurantForm(false)} />
-                )}
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="text-right">اسم المطعم</th>
-                      <th className="text-right">نوع الطعام</th>
-                      <th className="text-right">التقييم</th>
-                      <th className="text-right">الإجراءات</th>
+            <div>
+              <Button onClick={() => setShowAddRestaurantForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
+                <PlusCircle className="mr-2" /> إضافة مطعم جديد
+              </Button>
+              {showAddRestaurantForm && (
+                <AddRestaurantForm onSubmit={handleAddRestaurant} onCancel={() => setShowAddRestaurantForm(false)} />
+              )}
+              <table className="w-full">
+                <thead>
+                  <tr>
+                    <th className="text-right">اسم المطعم</th>
+                    <th className="text-right">نوع الطعام</th>
+                    <th className="text-right">التقييم</th>
+                    <th className="text-right">الإجراءات</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {restaurants.map((restaurant) => (
+                    <tr key={restaurant.id}>
+                      <td>{restaurant.name}</td>
+                      <td>{restaurant.cuisine}</td>
+                      <td>{restaurant.rating}</td>
+                      <td>
+                        <Button className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button className="bg-red-500 hover:bg-red-600 text-white">
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {restaurants.map((restaurant) => (
-                      <tr key={restaurant.id}>
-                        <td>{restaurant.name}</td>
-                        <td>{restaurant.cuisine}</td>
-                        <td>{restaurant.rating}</td>
-                        <td>
-                          <Button onClick={() => handleEditRestaurant(restaurant.id)} className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button onClick={() => handleDeleteRestaurant(restaurant.id)} className="bg-red-500 hover:bg-red-600 text-white">
-                            <Trash className="h-4 w-4" />
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
 
           {activeTab === 'ads' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>إدارة الإعلانات</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={() => setShowEditAdForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
-                  <PlusCircle className="mr-2" /> إضافة إعلان جديد
-                </Button>
-                {showEditAdForm && (
-                  <EditAdForm onSubmit={handleEditAd} onCancel={() => setShowEditAdForm(false)} />
-                )}
-                <div className="space-y-4">
-                  <Card>
-                    <CardContent className="flex justify-between items-center">
-                      <div>
-                        <h3 className="font-bold">خصم 20% على جميع الطلبات</h3>
-                        <p>صالح حتى: 2024-04-01</p>
-                      </div>
-                      <div>
-                        <Button onClick={() => setShowEditAdForm(true)} className="mr-2 bg-yellow-500 hover:bg-yellow-600 text-white">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button onClick={() => handleDeleteAd(1)} className="bg-red-500 hover:bg-red-600 text-white">
-                          <Trash className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CardContent>
-            </Card>
+            <div>
+              <Button onClick={() => setShowEditAdForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
+                <PlusCircle className="mr-2" /> إضافة إعلان جديد
+              </Button>
+              {showEditAdForm && (
+                <EditAdForm onSubmit={handleEditAd} onCancel={() => setShowEditAdForm(false)} />
+              )}
+              {/* هنا يمكنك إضافة قائمة الإعلانات الحالية */}
+            </div>
           )}
 
           {activeTab === 'subscriptions' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>إدارة الاشتراكات</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {subscriptions.map((subscription, index) => (
-                    <Card key={index}>
-                      <CardContent>
-                        <h3 className="font-bold">{subscription.name}</h3>
-                        <p>السعر: {subscription.price} جنيه مصري/شهريًا</p>
-                        <Button onClick={() => setShowEditSubscriptionForm(true)} className="mt-2 bg-yellow-500 hover:bg-yellow-600 text-white">تعديل</Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-                {showEditSubscriptionForm && (
-                  <EditSubscriptionForm onSubmit={handleEditSubscription} onCancel={() => setShowEditSubscriptionForm(false)} />
-                )}
-              </CardContent>
-            </Card>
+            <div>
+              <Button onClick={() => setShowEditSubscriptionForm(true)} className="mb-4 bg-green-500 hover:bg-green-600 text-white">
+                تعديل خطط الاشتراك
+              </Button>
+              {showEditSubscriptionForm && (
+                <EditSubscriptionForm onSubmit={handleEditSubscription} onCancel={() => setShowEditSubscriptionForm(false)} />
+              )}
+              {/* هنا يمكنك إضافة قائمة خطط الاشتراك الحالية */}
+            </div>
           )}
 
           {activeTab === 'content' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>إدارة المحتوى</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={() => setShowContentManagementForm(true)} className="mb-4 bg-blue-500 hover:bg-blue-600 text-white">
-                  <FileText className="mr-2" /> تعديل المحتوى
-                </Button>
-                <Button onClick={() => setShowPopupAdForm(true)} className="mb-4 ml-4 bg-purple-500 hover:bg-purple-600 text-white">
-                  <PlusCircle className="mr-2" /> إضافة إعلان منبثق
-                </Button>
-                {showContentManagementForm && (
-                  <ContentManagementForm onSubmit={handleContentManagement} onCancel={() => setShowContentManagementForm(false)} />
-                )}
-                {showPopupAdForm && (
-                  <PopupAdForm onSubmit={handlePopupAd} onCancel={() => setShowPopupAdForm(false)} />
-                )}
-              </CardContent>
-            </Card>
+            <div>
+              <Button onClick={() => setShowContentManagementForm(true)} className="mb-4 bg-blue-500 hover:bg-blue-600 text-white">
+                <FileText className="mr-2" /> تعديل المحتوى
+              </Button>
+              <Button onClick={() => setShowPopupAdForm(true)} className="mb-4 ml-4 bg-purple-500 hover:bg-purple-600 text-white">
+                <PlusCircle className="mr-2" /> إضافة إعلان منبثق
+              </Button>
+              {showContentManagementForm && (
+                <ContentManagementForm onSubmit={handleContentManagement} onCancel={() => setShowContentManagementForm(false)} />
+              )}
+              {showPopupAdForm && (
+                <PopupAdForm onSubmit={handlePopupAd} onCancel={() => setShowPopupAdForm(false)} />
+              )}
+            </div>
           )}
         </CardContent>
       </Card>

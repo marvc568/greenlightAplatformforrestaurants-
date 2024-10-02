@@ -1,41 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, Apple, Smartphone } from 'lucide-react';
+import { Download } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const DownloadAppButton = () => {
-  const [showDownloadInfo, setShowDownloadInfo] = useState(false);
-
   return (
-    <div className="fixed bottom-4 left-4">
-      <Button 
-        size="icon" 
-        className="rounded-full bg-blue-500 hover:bg-blue-600"
-        onClick={() => setShowDownloadInfo(!showDownloadInfo)}
-      >
-        <Download className="h-6 w-6" />
+    <motion.div
+      className="fixed bottom-4 left-4"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+    >
+      <Button className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4">
+        <Download className="mr-2" />
+        حمل التطبيق
       </Button>
-      
-      {showDownloadInfo && (
-        <Card className="absolute bottom-16 left-0 w-64">
-          <CardHeader>
-            <CardTitle className="text-lg">حمل التطبيق</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <Button className="w-full flex items-center justify-center" variant="outline">
-                <Apple className="mr-2 h-4 w-4" />
-                تحميل لـ iOS
-              </Button>
-              <Button className="w-full flex items-center justify-center" variant="outline">
-                <Smartphone className="mr-2 h-4 w-4" />
-                تحميل لـ Android
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+    </motion.div>
   );
 };
 

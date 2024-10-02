@@ -6,11 +6,11 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
       <BackButton />
-      <Card className="max-w-4xl mx-auto mt-12">
+      <Card className="max-w-4xl mx-auto mt-12 rtl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">سياسة الخصوصية</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 text-right">
           <p>
             تلتزم منصة Green Light بحماية خصوصية المستخدمين والمعلومات الشخصية التي يتم جمعها من خلال المنصة. تهدف هذه السياسة إلى توضيح كيفية جمع واستخدام وحماية البيانات الشخصية التي تقدمها لنا.
           </p>

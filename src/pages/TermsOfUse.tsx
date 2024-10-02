@@ -6,11 +6,11 @@ const TermsOfUse = () => {
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
       <BackButton />
-      <Card className="max-w-4xl mx-auto mt-12">
+      <Card className="max-w-4xl mx-auto mt-12 rtl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-center">شروط الاستخدام</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 text-right">
           <h3 className="text-2xl font-bold">1. حساب المستخدم:</h3>
           <p>يوجد نوعان من الحسابات على المنصة:</p>
           <h4 className="text-xl font-semibold">حساب العميل العادي:</h4>

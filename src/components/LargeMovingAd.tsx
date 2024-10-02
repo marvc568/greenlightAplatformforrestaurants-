@@ -3,19 +3,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const ads = [
   {
-    title: "عرض خاص!",
-    description: "خصم 50% على جميع الوجبات اليوم فقط!",
-    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    title: "بازوكا أبو شقرا",
+    description: "أشهى المشويات والشاورما",
+    image: "https://example.com/bazooka-abu-shakra.jpg",
   },
   {
-    title: "جديد!",
-    description: "جرب قائمتنا الصحية الجديدة",
-    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    title: "برجر كينج",
+    description: "برجر شهي بطعم لا يقاوم",
+    image: "https://example.com/burger-king.jpg",
   },
   {
-    title: "توصيل مجاني",
-    description: "لجميع الطلبات فوق 100 جنيه",
-    image: "https://images.unsplash.com/photo-1526367790999-0150786686a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+    title: "KFC",
+    description: "دجاج مقرمش ولذيذ",
+    image: "https://example.com/kfc.jpg",
   },
 ];
 
