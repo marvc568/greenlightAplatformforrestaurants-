@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Index = () => {
   return (
@@ -11,9 +11,10 @@ const Index = () => {
       <header className="p-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold">Green Light</h1>
         <nav>
-          <Button variant="outline" className="mr-2">تسجيل الدخول</Button>
-          <Button variant="outline" className="mr-2">إنشاء حساب</Button>
-          <Button variant="outline">كن شريكًا</Button>
+          <Link to="/login"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">تسجيل الدخول</Button></Link>
+          <Link to="/register"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">إنشاء حساب</Button></Link>
+          <Link to="/partner"><Button variant="outline" className="mr-2 bg-blue-500 hover:bg-blue-600 text-white">كن شريكًا</Button></Link>
+          <Link to="/subscriptions"><Button variant="outline" className="bg-blue-500 hover:bg-blue-600 text-white">الاشتراكات</Button></Link>
         </nav>
       </header>
 
@@ -31,7 +32,7 @@ const Index = () => {
             <CardContent>
               <div className="flex space-x-2">
                 <Input placeholder="اسم المطعم أو نوع الطعام" />
-                <Button>بحث</Button>
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white">بحث</Button>
               </div>
             </CardContent>
           </Card>
@@ -39,8 +40,8 @@ const Index = () => {
 
         <section className="mb-10">
           <h3 className="text-2xl font-bold mb-4">المطاعم المميزة</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
               <Card key={i}>
                 <CardHeader>
                   <CardTitle>مطعم {i}</CardTitle>
@@ -51,66 +52,11 @@ const Index = () => {
                   <p>تقييم: ⭐⭐⭐⭐</p>
                 </CardContent>
                 <CardFooter>
-                  <Button>عرض القائمة</Button>
+                  <Link to={`/restaurant/${i}`}><Button className="bg-blue-500 hover:bg-blue-600 text-white">عرض القائمة</Button></Link>
                 </CardFooter>
               </Card>
             ))}
           </div>
-        </section>
-
-        <section className="mb-10">
-          <h3 className="text-2xl font-bold mb-4">العروض والخصومات</h3>
-          <Card>
-            <CardHeader>
-              <CardTitle>كوبونات وخصومات</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p>وفر ارتفاع القيم الشرائية والكوبونات للحصول على خصم</p>
-              <p>لأضعاف قيمته ومراجعة</p>
-            </CardContent>
-            <CardFooter>
-              <Button>عرض جميع العروض</Button>
-            </CardFooter>
-          </Card>
-        </section>
-
-        <section className="mb-10">
-          <h3 className="text-2xl font-bold mb-4">خطط الاشتراك</h3>
-          <Tabs defaultValue="monthly">
-            <TabsList className="mb-4">
-              <TabsTrigger value="monthly">شهري</TabsTrigger>
-              <TabsTrigger value="yearly">سنوي</TabsTrigger>
-            </TabsList>
-            <TabsContent value="monthly">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[
-                  { name: "الأساسية", price: 0, features: ["ميزة 1", "ميزة 2", "ميزة 3"] },
-                  { name: "الاحترافية", price: 30, features: ["كل مميزات الخطة الأساسية", "ميزة 4", "ميزة 5", "ميزة 6"] },
-                  { name: "المتقدمة", price: 75, features: ["كل مميزات الخطة الاحترافية", "ميزة 7", "ميزة 8", "ميزة 9", "ميزة 10"] }
-                ].map((plan) => (
-                  <Card key={plan.name}>
-                    <CardHeader>
-                      <CardTitle>{plan.name}</CardTitle>
-                      <CardDescription>{plan.price} $ شهريًا</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul>
-                        {plan.features.map((feature, index) => (
-                          <li key={index}>{feature}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full">اشترك الآن</Button>
-                    </CardFooter>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-            <TabsContent value="yearly">
-              {/* يمكن إضافة محتوى مماثل للاشتراكات السنوية هنا */}
-            </TabsContent>
-          </Tabs>
         </section>
       </main>
 
@@ -120,8 +66,8 @@ const Index = () => {
             <p>جميع الحقوق محفوظة © Green Light 2024</p>
           </div>
           <div>
-            <Button variant="link" className="text-white">عن المنصة</Button>
-            <Button variant="link" className="text-white">اتصل بنا</Button>
+            <Link to="/about"><Button variant="link" className="text-white">عن المنصة</Button></Link>
+            <Link to="/contact"><Button variant="link" className="text-white">اتصل بنا</Button></Link>
           </div>
         </div>
       </footer>
