@@ -5,7 +5,7 @@ import { BarChart, Users, ShoppingBag, DollarSign, Mail, PlusCircle, Edit, Trash
 import BackButton from '@/components/BackButton';
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { restaurants } from '@/data/restaurants'; // Import the restaurants data
+import { restaurants } from '@/data/restaurants';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -172,7 +172,6 @@ const AdminDashboard = () => {
                         <Button className="bg-red-500 hover:bg-red-600 text-white">حذف</Button>
                       </td>
                     </tr>
-                    {/* يمكن إضافة المزيد من المستخدمين هنا */}
                   </tbody>
                 </table>
               </CardContent>
@@ -205,7 +204,6 @@ const AdminDashboard = () => {
                       </div>
                     </CardContent>
                   </Card>
-                  {/* يمكن إضافة المزيد من الإعلانات هنا */}
                 </div>
               </CardContent>
             </Card>
