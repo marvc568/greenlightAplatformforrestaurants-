@@ -4,22 +4,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import BackButton from '@/components/BackButton';
 
+interface Plan {
+  name: string;
+  price: number;
+  features: string[];
+}
+
 const Subscriptions = () => {
-  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
-  const plans = [
+  const plans: Plan[] = [
     { name: 'الأساسية', price: 99, features: ['إدراج المطعم', 'تحديثات أسبوعية', 'دعم عبر البريد الإلكتروني'] },
     { name: 'المتقدمة', price: 199, features: ['كل مميزات الخطة الأساسية', 'تحليلات متقدمة', 'دعم على مدار الساعة'] },
     { name: 'الاحترافية', price: 299, features: ['كل مميزات الخطة المتقدمة', 'تخصيص كامل', 'مدير حساب مخصص'] },
   ];
 
-  const handleSelectPlan = (plan) => {
+  const handleSelectPlan = (plan: Plan) => {
     setSelectedPlan(plan);
     setShowPaymentForm(true);
   };
 
-  const handlePayment = (e) => {
+  const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
     // هنا يمكنك إضافة منطق معالجة الدفع
     alert('تم الدفع بنجاح! شكرًا لاشتراكك.');
@@ -55,7 +61,7 @@ const Subscriptions = () => {
           ))}
         </div>
 
-        {showPaymentForm && (
+        {showPaymentForm && selectedPlan && (
           <Card className="mt-8 max-w-md mx-auto">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">الدفع الإلكتروني</CardTitle>
@@ -69,7 +75,7 @@ const Subscriptions = () => {
                 </div>
                 <Input placeholder="الاسم على البطاقة" required />
                 <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white">
-                  ادفع {selectedPlan?.price} ريال
+                  ادفع {selectedPlan.price} ريال
                 </Button>
               </form>
             </CardContent>
