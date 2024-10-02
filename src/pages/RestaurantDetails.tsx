@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { StarIcon, Truck, CreditCard } from 'lucide-react';
+import { StarIcon, Truck, CreditCard, Plus, Minus } from 'lucide-react';
 import BackButton from '@/components/BackButton';
 import { restaurants } from '@/data/restaurants';
+import { toast } from "@/components/ui/use-toast"
 
 const RestaurantDetails = () => {
   const { id } = useParams();
   const [selectedCategory, setSelectedCategory] = useState('الكل');
+  const [cart, setCart] = useState({});
 
   const restaurant = restaurants.find(r => r.id === Number(id));
 
@@ -16,7 +18,6 @@ const RestaurantDetails = () => {
     return <div>المطعم غير موجود</div>;
   }
 
-  // بيانات القائمة (يمكن استبدالها بطلب API حقيقي لاحقًا)
   const menu = [
     { category: 'المقبلات', items: [
       { name: 'حمص', price: 15, description: 'حمص مع زيت زيتون وبقدونس' },
@@ -31,6 +32,55 @@ const RestaurantDetails = () => {
       { name: 'أم علي', price: 22, description: 'حلوى أم علي الساخنة مع المكسرات' },
     ]},
   ];
+
+  const addToCart = (item) => {
+    setCart(prevCart => ({
+      ...prevCart,
+      [item.name]: (prevCart[item.name] || 0) + 1
+    }));
+    toast({
+      title: "تمت الإضافة إلى السلة",
+      description: `تم إضافة ${item.name} إلى سلة المشتريات`,
+    });
+  };
+
+  const removeFromCart = (item) => {
+    setCart(prevCart => {
+      const newCart = { ...prevCart };
+      if (newCart[item.name] > 1) {
+        newCart[item.name]--;
+      } else {
+        delete newCart[item.name];
+      }
+      return newCart;
+    });
+  };
+
+  const getTotalPrice = () => {
+    return Object.entries(cart).reduce((total, [itemName, quantity]) => {
+      const item = menu.flatMap(cat => cat.items).find(i => i.name === itemName);
+      return total + (item ? item.price * quantity : 0);
+    }, 0);
+  };
+
+  const placeOrder = () => {
+    if (Object.keys(cart).length === 0) {
+      toast({
+        title: "السلة فارغة",
+        description: "الرجاء إضافة بعض الأصناف إلى السلة قبل الطلب",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Here you would typically send the order to a backend API
+    // For now, we'll just show a success message
+    toast({
+      title: "تم تقديم الطلب بنجاح",
+      description: `تم إرسال طلبك إلى ${restaurant.name}. سيتم التواصل معك قريبًا لتأكيد الطلب.`,
+    });
+    setCart({});
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
@@ -79,10 +129,19 @@ const RestaurantDetails = () => {
                   <Card key={item.name}>
                     <CardContent className="flex items-center p-4">
                       <img src={`https://picsum.photos/seed/${item.name}/100/100`} alt={item.name} className="w-20 h-20 object-cover rounded mr-4" />
-                      <div>
+                      <div className="flex-grow">
                         <h4 className="font-bold">{item.name}</h4>
                         <p className="text-gray-600">{item.description}</p>
                         <p className="font-bold mt-2">{item.price} ريال</p>
+                      </div>
+                      <div className="flex items-center">
+                        <Button onClick={() => removeFromCart(item)} className="p-1 bg-red-500 hover:bg-red-600">
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="mx-2">{cart[item.name] || 0}</span>
+                        <Button onClick={() => addToCart(item)} className="p-1 bg-green-500 hover:bg-green-600">
+                          <Plus className="h-4 w-4" />
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
@@ -90,7 +149,19 @@ const RestaurantDetails = () => {
               )
             )}
           </div>
-          <Button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white">
+          <div className="mt-6 bg-gray-100 p-4 rounded">
+            <h4 className="font-bold text-xl mb-2">سلة المشتريات</h4>
+            {Object.entries(cart).map(([itemName, quantity]) => (
+              <div key={itemName} className="flex justify-between items-center mb-2">
+                <span>{itemName} x {quantity}</span>
+                <span>{menu.flatMap(cat => cat.items).find(i => i.name === itemName).price * quantity} ريال</span>
+              </div>
+            ))}
+            <div className="border-t pt-2 mt-2">
+              <strong>المجموع: {getTotalPrice()} ريال</strong>
+            </div>
+          </div>
+          <Button onClick={placeOrder} className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white">
             <CreditCard className="mr-2 h-4 w-4" />
             طلب الآن
           </Button>
