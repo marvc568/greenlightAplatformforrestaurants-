@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, Car
-dHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { MessageCircle, Settings, Download, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RestaurantCard from '@/components/RestaurantCard';
