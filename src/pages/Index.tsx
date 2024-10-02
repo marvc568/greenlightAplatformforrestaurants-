@@ -14,8 +14,6 @@ import NewsBar from '@/components/NewsBar';
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [welcomeMessage, setWelcomeMessage] = useState('');
-  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-  const [showTermsOfUse, setShowTermsOfUse] = useState(false);
 
   useEffect(() => {
     setWelcomeMessage('مرحبًا بك في Green Light، منصتك المفضلة لطلب الطعام!');
@@ -84,8 +82,8 @@ const Index = () => {
           <div>
             <Link to="/about"><Button variant="link" className="text-white">من نحن</Button></Link>
             <Link to="/contact"><Button variant="link" className="text-white">اتصل بنا</Button></Link>
-            <Button variant="link" className="text-white" onClick={() => setShowPrivacyPolicy(true)}>سياسة الخصوصية</Button>
-            <Button variant="link" className="text-white" onClick={() => setShowTermsOfUse(true)}>شروط الاستخدام</Button>
+            <Link to="/privacy-policy"><Button variant="link" className="text-white">سياسة الخصوصية</Button></Link>
+            <Link to="/terms-of-use"><Button variant="link" className="text-white">شروط الاستخدام</Button></Link>
           </div>
         </div>
       </footer>
