@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import BackButton from '@/components/BackButton';
+import SupportButton from '@/components/SupportButton';
 
 interface Plan {
   name: string;
@@ -41,7 +42,7 @@ const Subscriptions = () => {
         <h2 className="text-3xl font-bold text-center text-white mb-8">اختر خطة الاشتراك المناسبة لك</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan) => (
-            <Card key={plan.name} className="flex flex-col">
+            <Card key={plan.name} className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-105">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
               </CardHeader>
@@ -104,13 +105,11 @@ const Subscriptions = () => {
                   ادفع {selectedPlan.price} جنيه مصري
                 </Button>
               </form>
-              <p className="mt-4 text-center text-sm">
-                أو يمكنك <Button variant="link" className="p-0 h-auto font-normal">التواصل مع الدعم الفني</Button> للاشتراك
-              </p>
             </CardContent>
           </Card>
         )}
       </div>
+      <SupportButton />
     </div>
   );
 };

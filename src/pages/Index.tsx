@@ -6,6 +6,7 @@ import { MessageCircle, Settings, Download, Mail, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import RestaurantCard from '@/components/RestaurantCard';
 import MovingAds from '@/components/MovingAds';
+import LargeMovingAd from '@/components/LargeMovingAd';
 import { restaurants } from '@/data/restaurants';
 import SupportButton from '@/components/SupportButton';
 import DownloadAppButton from '@/components/DownloadAppButton';
@@ -34,7 +35,9 @@ const Index = () => {
           <p className="text-xl">منصتك المثالية لاكتشاف أفضل المطاعم و طلب الطعام المفضل لديك بسهولة.</p>
         </section>
 
-        <section className="mb-10">
+        <LargeMovingAd />
+
+        <section className="mb-10 mt-10">
           <Card>
             <CardHeader>
               <CardTitle>ابحث عن مطعمك المفضل</CardTitle>
@@ -71,7 +74,7 @@ const Index = () => {
             <p>جميع الحقوق محفوظة © Green Light 2024</p>
           </div>
           <div>
-            <Link to="/about"><Button variant="link" className="text-white">عن المنصة</Button></Link>
+            <Link to="/about"><Button variant="link" className="text-white">من نحن</Button></Link>
             <Link to="/contact"><Button variant="link" className="text-white">اتصل بنا</Button></Link>
           </div>
         </div>
