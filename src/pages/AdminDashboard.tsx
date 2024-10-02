@@ -79,8 +79,6 @@ const AdminDashboard = () => {
     setShowPopupAdForm(false);
   };
 
-
-  return (
   return (
     <div className="min-h-screen bg-gradient-to-r from-purple-500 to-pink-500 p-4">
       <BackButton />
@@ -326,7 +324,6 @@ const AdminDashboard = () => {
         </CardContent>
       </Card>
     </div>
-  );
   );
 };
 
