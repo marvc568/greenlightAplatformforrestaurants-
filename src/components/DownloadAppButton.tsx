@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Download, Apple, Android } from 'lucide-react';
+import { Download, Apple, Smartphone } from 'lucide-react';
 
 const DownloadAppButton = () => {
   const [showDownloadInfo, setShowDownloadInfo] = useState(false);
@@ -28,7 +28,7 @@ const DownloadAppButton = () => {
                 تحميل لـ iOS
               </Button>
               <Button className="w-full flex items-center justify-center" variant="outline">
-                <Android className="mr-2 h-4 w-4" />
+                <Smartphone className="mr-2 h-4 w-4" />
                 تحميل لـ Android
               </Button>
             </div>
